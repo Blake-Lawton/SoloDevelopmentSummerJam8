@@ -24,3 +24,8 @@ COMPS
 COMPS.meta
 *.mdb
 *.mdb.meta
+/Assets/Toon_RTS
+/Assets/Frank_Mage
+/Assets/FlatKit
+/Assets/PolysplitGames
+
