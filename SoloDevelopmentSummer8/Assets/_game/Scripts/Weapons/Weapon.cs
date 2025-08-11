@@ -9,7 +9,7 @@ namespace _game.Scripts.Weapons
         [SerializeField] protected T _data;
         protected PlayerBrain _player;
 
-        [SerializeField]private float _currentCooldown;
+        [SerializeField]protected float _currentCooldown;
 
         public override void Tick()
         {
@@ -17,10 +17,9 @@ namespace _game.Scripts.Weapons
 
             if (_currentCooldown <= 0)
             {
-                Debug.Log(_data.Cooldown);
+              
                 FireWeapon();
-                _currentCooldown = _data.Cooldown;
-                
+                _currentCooldown = _player.Stats.CalculateCooldown(_player.Stats.CalculateCooldown(_data.Cooldown));
             }
         }
 

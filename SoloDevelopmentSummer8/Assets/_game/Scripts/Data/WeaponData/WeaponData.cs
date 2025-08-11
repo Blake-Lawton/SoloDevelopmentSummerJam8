@@ -1,5 +1,6 @@
 using _game.Scripts.Weapons;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _game.Scripts.Data.WeaponData
 {
@@ -10,18 +11,13 @@ namespace _game.Scripts.Data.WeaponData
         [SerializeField] private WeaponBase _weaponPrefab;
        
         [SerializeField] private float _cooldown;
-        [SerializeField] private float _damage;
+        [FormerlySerializedAs("_damage")] [SerializeField] private float _damageScaler;
         
         public WeaponBase WeaponPrefab => _weaponPrefab;
         public float Cooldown => _cooldown;
-        public float Damage => _damage;
+        public float DamageScaler => _damageScaler;
     }
     
-    [CreateAssetMenu(fileName = "ProjectileData", menuName = "Scriptable Objects/Projectile Data")]
-    public class ProjectileData : WeaponData
-    {
-        [SerializeField] private float _speed;
-        public float Speed => _speed;
-    }
+   
 }
 

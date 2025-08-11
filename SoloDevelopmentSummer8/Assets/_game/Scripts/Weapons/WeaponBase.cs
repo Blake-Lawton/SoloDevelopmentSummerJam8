@@ -7,5 +7,7 @@ namespace _game.Scripts.Weapons
     {
         public abstract void Tick();
         public abstract void Equipped(PlayerBrain brain);
+
+        public abstract void ResetCoolDown();
     }
 }

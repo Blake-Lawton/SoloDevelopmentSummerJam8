@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c8747ed580126a4e9061b65e3d28798, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  _health: 0
-  _damage: 0
-  _speed: 0
-  _cooldown: 0
+  _health: 200
+  _damage: 10
+  _speed: 6

@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: efa4e06e5344f6f4887b65c1fa869c6a, type: 3}
   m_Name: ChaosBoltData
   m_EditorClassIdentifier: Assembly-CSharp:_game.Scripts.Data.WeaponData:ProjectileData
   _weaponPrefab: {fileID: 1833961223662248987, guid: 62e5876c33c0be947a65a3694453d0e0, type: 3}
   _cooldown: 2
-  _damage: 2
+  _damageScaler: 1
   _speed: 20
+  _lifetime: 10

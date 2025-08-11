@@ -1,3 +1,5 @@
+using System;
+using _game.Scripts.Controllers.Player;
 using _game.Scripts.Interfaces;
 using UnityEngine;
 
@@ -6,13 +8,18 @@ namespace _game.Scripts
     public class MovementController : MonoBehaviour, IController
     {
         [SerializeField] private CharacterController _cc;
-        [SerializeField] private float _speed = 5f;
         [SerializeField] private float _rotationSpeed;
         [SerializeField] private Camera _camera;
         [SerializeField] private LayerMask _mouseLayerMask;
-        
+        private PlayerStatsController _stats;
         private Vector3 _movementDirection;
         public Vector3 MovementDirection => _movementDirection;
+
+
+        private void Awake()
+        {
+            _stats = GetComponent<PlayerStatsController>();
+        }
 
         public Vector3 RecordInput()
         {
@@ -29,7 +36,7 @@ namespace _game.Scripts
 
             if (moveDir.magnitude >= 0.1f)
             {
-                _cc.Move(moveDir * _speed * Time.deltaTime);
+                _cc.Move(moveDir * _stats.GetSpeed() * Time.deltaTime);
             }
         }
 
@@ -56,5 +63,7 @@ namespace _game.Scripts
             Move();
             RotateTowardsMouse();
         }
+
+        
     }
 }

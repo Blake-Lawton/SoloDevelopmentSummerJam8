@@ -1,3 +1,4 @@
+using System;
 using _game.Scripts.Interfaces;
 using UnityEngine;
 
@@ -9,10 +10,11 @@ namespace _game.Scripts.Controllers.Player
         [SerializeField] private Animator _animator;
         private MovementController _movement;
 
+        public event Action OnChaosModeExit;
 
         private void Awake()
         {
-            _movement = GetComponent<MovementController>();
+            _movement = GetComponentInParent<MovementController>();
         }
         
         public void Handle()
@@ -31,6 +33,15 @@ namespace _game.Scripts.Controllers.Player
             _animator.SetFloat("Vertical", velocityZ, 0.1f, Time.deltaTime);
         }
 
-    
+
+        public void EnterChaosMode()
+        {
+            _animator.SetTrigger("ChaosMode");
+        }
+
+        public void ExitChaosMode()
+        {
+            OnChaosModeExit?.Invoke();
+        }
     }
 }

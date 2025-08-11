@@ -1,3 +1,5 @@
+using _game.Scripts.Data;
+using _game.Scripts.Managers;
 using UnityEngine;
 
 namespace _game.Scripts
@@ -9,8 +11,11 @@ namespace _game.Scripts
         [SerializeField] private Vector3 _rotationOffset = new Vector3(45f, 0f, 0f);   
         [SerializeField] private float _followSpeed = 5f;           
 
+        
         private void LateUpdate()
         {
+            if(GameStateManager.Instance.GameState == GameState.Menu)
+                return;
             if (!_target) return;
 
             Vector3 desiredPosition = _target.position + _positionOffset;

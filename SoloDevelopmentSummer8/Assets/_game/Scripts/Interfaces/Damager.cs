@@ -14,16 +14,17 @@ namespace _game.Scripts.Interfaces
 
         private int CalculatedDamage()
         {
-            
-            //calculate damage from player stats
-            return (int)(_data.Damage * _stats.DamageMulti);
+            return _stats.CalculateDamage(_data.DamageScaler);
         }
 
         public virtual void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out HealthController health))
             {
-                health.TakeDamage(CalculatedDamage());
+                if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                    health.TakeDamage(CalculatedDamage());
+              
+                
             }
         }
 
