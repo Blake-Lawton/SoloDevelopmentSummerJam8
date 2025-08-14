@@ -10,9 +10,13 @@ namespace _game.Scripts.Controllers.Enemy
     {
         private HealthController _healthController;
 
+        [SerializeField] private Material _basicMaterial;
+        
         [SerializeField] private Material _dissolveMaterial;
         [SerializeField] private Renderer[] _renderers;
 
+        
+        private Material _sharedBasicMaterial;
         private Material _sharedDissolveMaterial;
 
         private void Awake()
@@ -20,8 +24,20 @@ namespace _game.Scripts.Controllers.Enemy
             _healthController = GetComponent<HealthController>();
             _healthController.OnDeath += Despawn;
             _healthController.OnDeath += RecordKill;
+            _healthController.OnHealthChanged += TakeHit;
             // Create one shared instance of the dissolve material
             _sharedDissolveMaterial = new Material(_dissolveMaterial);
+            _sharedBasicMaterial = new Material(_basicMaterial);
+            
+            foreach (var renderer in _renderers)
+            {
+                Material[] mats = renderer.materials;
+                for (int i = 0; i < mats.Length; i++)
+                {
+                    mats[i] = _sharedBasicMaterial;
+                }
+                renderer.materials = mats;
+            }
         }
 
         private void RecordKill()
@@ -49,6 +65,24 @@ namespace _game.Scripts.Controllers.Enemy
             {
                 Destroy(gameObject);
             };
+        }
+        
+        public void TakeHit(float percentage)
+        {
+            // Kill any running tweens so hits don't overlap
+            _sharedBasicMaterial.DOKill();
+
+            // Get the original color (assuming your shader uses _Color)
+            Color originalColor = _sharedBasicMaterial.color;
+    
+            // Flash to red, then back
+            _sharedBasicMaterial
+                .DOColor(Color.red, "_BaseColor", 0.2f)
+                .OnComplete(() =>
+                {
+                    _sharedBasicMaterial
+                        .DOColor(originalColor, "_BaseColor", 0.2f);
+                });
         }
     }
 }

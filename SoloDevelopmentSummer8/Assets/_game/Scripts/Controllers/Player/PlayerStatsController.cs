@@ -1,6 +1,7 @@
 using _game.Scripts.Data;
 using _game.Scripts.Data.PlayerData;
 using _game.Scripts.Interfaces;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace _game.Scripts.Controllers.Player
@@ -12,9 +13,14 @@ namespace _game.Scripts.Controllers.Player
         [SerializeField] private PlayerStatsData _data;
         private float _damageMulti = 1;
         private float _speedMulti = 1;
-        private float _cooldownMulti = 0;
+        [SerializeField]private float _cooldownMulti = 0;
         private float _chaosMulti = 1;
-        
+
+
+        public float DamageMulti => _damageMulti;
+        public float SpeedMulti => _speedMulti;
+        public float CooldownMulti => _cooldownMulti;
+        public float ChaosMulti => _chaosMulti;
         public void Handle()
         {
           
@@ -51,9 +57,12 @@ namespace _game.Scripts.Controllers.Player
             return (int)((_data.Damage * dataDamageScaler) * _damageMulti);
         }
 
+        [Button]
         public void IncreaseCooldownMulti(float cooldownMulti)
         {
+            
             _cooldownMulti += cooldownMulti;
+            _cooldownMulti = Mathf.Clamp(_cooldownMulti, 0, .7f);
         }
 
         public void DecreaseCooldownMulti(float cooldownMulti)
@@ -62,7 +71,8 @@ namespace _game.Scripts.Controllers.Player
         }
         public float CalculateCooldown(float coolDown)
         {
-            return coolDown - (coolDown * _cooldownMulti);
+            var calculatedCooldown = coolDown - (coolDown * _cooldownMulti);
+            return calculatedCooldown;
         }
 
         public void IncreaseChaosMulti(float chaos)

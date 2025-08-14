@@ -50,7 +50,7 @@ namespace _game.Scripts.Managers
 
                 enemy.SetUp(roundScaler);
                 
-                UnityEngine.Debug.Log("New Spawn Time " + _spawnTime);
+                
                
                 
                 _spawnTimer = _spawnTime;

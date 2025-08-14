@@ -1181,8 +1181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 131ef036f023bfc408cf1d3c3af33f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentHealth: 20
-  _maxHealth: 20
+  _currentHealth: 30
+  _maxHealth: 30
 --- !u!114 &5003795980719821886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1289,6 +1289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a804daa706e57eb46998493a0169b0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _basicMaterial: {fileID: 2100000, guid: ad6e6075dbc8ce84cb7d4c2a7a41092e, type: 2}
   _dissolveMaterial: {fileID: 2100000, guid: e3d2c368525f2154d9e17f23786c3ff9, type: 2}
   _renderers:
   - {fileID: 6504157135609978976}

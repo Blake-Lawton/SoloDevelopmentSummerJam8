@@ -31,7 +31,8 @@ namespace _game.Scripts.Controllers.Player
         private HealthController _health;
         [SerializeField,ReadOnly] private float _currentChaos = 0;
         [SerializeField,ReadOnly] private float _maxChaos = 30;
-        
+
+        private float _chaosDamageTickTime = 0;
       
         private bool _consumingChaos = false;
         private bool _chaosMode;
@@ -104,14 +105,24 @@ namespace _game.Scripts.Controllers.Player
             if (_currentChaos <= 0)
                 StopChaos();
             
+           
+            _chaosDamageTickTime += Time.deltaTime;
+
+            if (_chaosDamageTickTime >= 1 && UpgradeManager.Instance.ChaosUpgrade)
+            {
+                _health.TakeDamage(2);
+                _chaosDamageTickTime = 0;
+            }
+            
+            
         }
         
         private void GenerateChaos(EnemyBrain enemy)
         {
             if(_health.IsDead)
                 return;
-            int chaosToCollect = _stats.CalculateChaosMulti() * 10;
-            EndGameScoreCard.Instance.ChaosCollect(chaosToCollect);
+            int chaosToCollect = _stats.CalculateChaosMulti();
+            EndGameScoreCard.Instance.ChaosCollect((int)(chaosToCollect * GameStateManager.Instance.RoundScaler));
             
             if(_chaosMode )
                 return;
@@ -189,7 +200,7 @@ namespace _game.Scripts.Controllers.Player
         private void ExitChaosMode()
         {
             _stats.DecreaseSpeedMulti(1f);
-            _stats.DecreaseDamageMulti(1f);
+            _stats.DecreaseDamageMulti(1.5f);
             _stats.DecreaseCooldownMulti(.6f);
             _chaosAuraVFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             _chaosAuraVFX.gameObject.transform.localScale = Vector3.one * 3;
@@ -204,21 +215,42 @@ namespace _game.Scripts.Controllers.Player
         }
         private void StartChaos()
         {
-            _stats.IncreaseSpeedMulti(.5f);
-            _stats.IncreaseDamageMulti(.5f);
-            _stats.IncreaseCooldownMulti(.3f);
+            if (UpgradeManager.Instance.ChaosUpgrade)
+            {
+                _stats.IncreaseSpeedMulti(.7f);
+                _stats.IncreaseDamageMulti(.7f);
+                _stats.IncreaseCooldownMulti(.4f);
+            }
+            else
+            {
+                _stats.IncreaseSpeedMulti(.5f);
+                _stats.IncreaseDamageMulti(.5f);
+                _stats.IncreaseCooldownMulti(.3f);
+            }
+          
             _chaosAuraVFX.Play();
             _consumingChaos = true;
             _barScroller.SetScrollSpeed(0.5f);
         }
 
+    
         private void StopChaos()
         {
             if (_consumingChaos)
             {
-                _stats.DecreaseSpeedMulti(.5f);
-                _stats.DecreaseDamageMulti(.5f);
-                _stats.DecreaseCooldownMulti(.3f);
+                if (UpgradeManager.Instance.ChaosUpgrade)
+                {
+                    _stats.DecreaseSpeedMulti(.7f);
+                    _stats.DecreaseDamageMulti(.7f);
+                    _stats.DecreaseCooldownMulti(.4f);
+                }
+                else
+                {
+                    _stats.DecreaseSpeedMulti(.5f);
+                    _stats.DecreaseDamageMulti(.5f);
+                    _stats.DecreaseCooldownMulti(.3f);
+                }
+               
                 _chaosAuraVFX.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                 _consumingChaos = false;
                 _barScroller.SetScrollSpeed(0.2f);

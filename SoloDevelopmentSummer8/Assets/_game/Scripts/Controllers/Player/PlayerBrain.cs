@@ -40,9 +40,7 @@ namespace _game.Scripts.Controllers
         {
             EndGameScoreCard.Instance.EndGame();
             GameStateManager.Instance.EndGame();
-            
-         
-            
+            UpgradeManager.Instance.ResetFresh();
             _chaos.ResetFresh();
             EndGameScoreCard.Instance.ResetFresh();
         }

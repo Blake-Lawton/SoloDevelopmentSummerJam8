@@ -22,6 +22,7 @@ namespace _game.Scripts.Controllers.Player
             if(GameStateManager.Instance.GameState != GameState.InRound && TryGetComponent(out PlayerBrain playerBrain))
                 return;
             
+          
             _currentHealth -= damage;
             OnHealthChanged?.Invoke(GetHealthPercentage());
             if (_currentHealth <= 0 && !_isDead)
@@ -62,6 +63,28 @@ namespace _game.Scripts.Controllers.Player
             
             _isDead = false;
             _currentHealth = _maxHealth;
+        }
+
+        public void Heal(float percentage)
+        {
+            if(_currentHealth >= _maxHealth)
+                return;
+            _currentHealth += (int)(_maxHealth * percentage);
+        }
+
+        public int GetPercentage(float percentage)
+        {
+            return (int)(_maxHealth * percentage);
+        }
+
+        public void TakeDamageUpgrade(int percentage)
+        {
+            _currentHealth -= percentage;
+            if (_currentHealth <= 0)
+                _currentHealth = 1;
+            
+            OnHealthChanged?.Invoke(GetHealthPercentage());
+            
         }
     }
 }

@@ -54,6 +54,7 @@ namespace _game.Scripts.Managers
        [Button]
        public void NextRound()
        {
+           _roundScaler += .5f;
            _round++;
            _gameState = GameState.InRound;
            _roundText.text = "Round " + _round;
@@ -75,6 +76,9 @@ namespace _game.Scripts.Managers
        public void StartGame()
        {
            _gameState = GameState.InRound;
+           _roundScaler = 1f;
+           _round = 1;
+           _roundText.text = "Round " + _round;
        }
 
        public void EndGame()

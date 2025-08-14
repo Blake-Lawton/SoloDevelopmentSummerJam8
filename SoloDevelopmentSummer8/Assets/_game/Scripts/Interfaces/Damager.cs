@@ -2,6 +2,7 @@ using _game.Scripts.Controllers;
 using _game.Scripts.Controllers.Player;
 using _game.Scripts.Data;
 using _game.Scripts.Data.WeaponData;
+using _game.Scripts.Managers;
 using UnityEngine;
 
 namespace _game.Scripts.Interfaces
@@ -21,10 +22,12 @@ namespace _game.Scripts.Interfaces
         {
             if (other.TryGetComponent(out HealthController health))
             {
-                if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+                if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && !health.IsDead)
+                {
+                    UpgradeManager.Instance.RollOnHit();
                     health.TakeDamage(CalculatedDamage());
-              
-                
+                }
+                    
             }
         }
 

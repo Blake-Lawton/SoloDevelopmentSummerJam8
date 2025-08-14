@@ -1,5 +1,7 @@
+using System.Collections;
 using _game.Scripts.Controllers;
 using _game.Scripts.Controllers.Enemy;
+using _game.Scripts.Managers;
 using _game.Scripts.Weapons.EnemyWeapons;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -14,8 +16,17 @@ public class MageController : EnemyAttackController
     {
         var arrow = Instantiate(_projectile, _firePoint.position, _firePoint.rotation);
         arrow.SetUp(_stats.Damage);
+        
+        if (UpgradeManager.Instance.DoubleProjectile)
+            StartCoroutine(SpawnExtraProjectile());
     }
 
+    private IEnumerator SpawnExtraProjectile()
+    {
+        yield return new WaitForSeconds(0.8f);
+        var arrow = Instantiate(_projectile, _firePoint.position, _firePoint.rotation);
+        arrow.SetUp(_stats.Damage);
+    }
         
     public override void Handle()
     {
